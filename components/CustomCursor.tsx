@@ -14,7 +14,13 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest("a") || target.closest("button") || target.closest(".clickable")) {
+      if (
+        target.tagName?.toLowerCase() === 'a' ||
+        target.tagName?.toLowerCase() === 'button' ||
+        target.closest("a") ||
+        target.closest("button") ||
+        target.closest(".clickable")
+      ) {
         setIsHovering(true);
       } else {
         setIsHovering(false);

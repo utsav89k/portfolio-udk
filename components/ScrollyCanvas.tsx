@@ -8,43 +8,46 @@ const FRAME_COUNT = 120; // 0 to 119
 export default function ScrollyCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const [firstFrameLoaded, setFirstFrameLoaded] = useState(false);
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
 
-  // 1. Preload all images
+  // 1. Preload images progressively
   useEffect(() => {
-    const loadedImages: HTMLImageElement[] = [];
-    let loadedCount = 0;
+    // Prevent re-initialization
+    if (imagesRef.current.length > 0) return;
 
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new window.Image();
-      // Format: frame_000_delay-0.066s.png to frame_119_delay-0.066s.png
       const frameIndex = i.toString().padStart(3, "0");
+      
+      // We prioritize loading the first few frames immediately
       img.src = `/sequence/frame_${frameIndex}_delay-0.066s.png`;
       
       img.onload = () => {
-        loadedCount++;
-        if (loadedCount === FRAME_COUNT) {
-          setImages(loadedImages);
+        if (i === 0) {
+          setFirstFrameLoaded(true);
         }
       };
       
-      loadedImages.push(img);
+      imagesRef.current.push(img);
     }
   }, []);
 
   // 2. Render function for an image using object-fit: cover logic
   const renderFrame = (index: number) => {
-    if (!canvasRef.current || images.length !== FRAME_COUNT) return;
+    if (!canvasRef.current || imagesRef.current.length === 0) return;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const img = images[index];
-    if (!img || !img.complete) return;
+    const img = imagesRef.current[index];
+    // If the image hasn't finished downloading over the network, wait and display the previous frame
+    if (!img || !img.complete || img.naturalWidth === 0) return;
 
     // Responsive Canvas dimensions
     canvas.width = window.innerWidth;
@@ -72,15 +75,14 @@ export default function ScrollyCanvas() {
     );
   };
 
-  // 3. Render initial frame once images are loaded
+  // 3. Render initial frame as soon as it's loaded
   useEffect(() => {
-    if (images.length === FRAME_COUNT) {
+    if (firstFrameLoaded) {
       renderFrame(0);
     }
     
     // Update on resize
     const handleResize = () => {
-      // Re-render current frame based on scroll position
       const currentScroll = scrollYProgress.get();
       const frameIndex = Math.min(
         FRAME_COUNT - 1,
@@ -91,7 +93,7 @@ export default function ScrollyCanvas() {
     
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [images]);
+  }, [firstFrameLoaded]);
 
   // 4. Update canvas as we scroll
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -105,9 +107,10 @@ export default function ScrollyCanvas() {
   return (
     <div ref={containerRef} className="relative h-[200vh] w-full bg-brand-bg">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
+        {/* Fallback color/loader could go here before firstFrameLoaded becomes true */}
         <canvas
           ref={canvasRef}
-          className="w-full h-full object-cover"
+          className={`w-full h-full object-cover transition-opacity duration-1000 ${firstFrameLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
         
         {/* Dark gradient overlay at the bottom so it fades nicely into the next section */}
