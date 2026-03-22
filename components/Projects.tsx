@@ -29,18 +29,28 @@ export default function Projects() {
               className="group relative h-full"
             >
               {/* Card Container */ }
-              <div className="flex flex-col h-full bg-brand-card/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 hover:border-brand-teal/50 hover:shadow-[0_0_30px_rgba(0,255,204,0.15)] overflow-hidden">
+              <div className="flex flex-col h-full bg-[#111827]/80 backdrop-blur-xl border border-white/10 rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 hover:border-brand-teal/50 hover:shadow-[0_0_30px_rgba(0,255,204,0.15)] overflow-hidden">
                 
-                {/* Top decorative gradient */ }
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-purple/50 to-brand-teal/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-teal transition-colors duration-300">
-                  {project.title}
-                </h3>
-                
-                <p className="text-gray-400 font-light leading-relaxed mb-8 flex-grow">
-                  {project.description}
-                </p>
+                {/* Project Image Header */}
+                <div className="w-full h-48 md:h-56 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-brand-teal/20 mix-blend-overlay z-10 opacity-50 transition-opacity group-hover:opacity-0" />
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-110"
+                  />
+                  {/* Subtle fade to card body */}
+                  <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#111827]/80 to-transparent z-20 pointer-events-none" />
+                </div>
+
+                <div className="p-8 flex flex-col flex-grow">
+                  <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-teal transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  
+                  <p className="text-gray-400 font-light leading-relaxed mb-8 flex-grow">
+                    {project.description}
+                  </p>
                 
                 <div className="flex flex-wrap gap-2 mb-8">
                   {project.tech.map((tech) => (
@@ -78,6 +88,7 @@ export default function Projects() {
                     </a>
                   )}
                 </div>
+              </div>
               </div>
             </motion.div>
           ))}

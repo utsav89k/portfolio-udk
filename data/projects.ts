@@ -5,6 +5,7 @@ export const projects = [
     tech: ["Azure Data Factory", "Databricks", "PySpark", "Azure Synapse", "Logic Apps", "Star Schema"],
     github: "https://github.com/utsav89k/azure_end-to-end_pipeline",
     live: "",
+    image: "/azure-pipeline.png"
   },
   {
     title: "Airbnb Data Pipeline — Snowflake & DBT",
@@ -12,6 +13,7 @@ export const projects = [
     tech: ["Snowflake", "DBT", "AWS S3", "Jinja", "IAM", "Data Warehousing"],
     github: "https://github.com/utsav89k/DE_Project_Snowflake_DBT",
     live: "",
+    image: "/dbt-snowflake.png"
   },
   {
     title: "Sales Data Processing & Analytics Pipeline",
@@ -19,6 +21,7 @@ export const projects = [
     tech: ["PySpark", "Databricks", "Delta Live Tables", "Unity Catalog", "Azure Key Vault", "Auto CDC"],
     github: "https://github.com/utsav89k/spark_declarative_pipeline_prj",
     live: "",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop"
   },
   {
     title: "Covid-19 Data Analysis & Visualization",
@@ -26,6 +29,7 @@ export const projects = [
     tech: ["Python", "SQL", "Tableau", "PostgreSQL", "BeautifulSoup", "Pandas"],
     github: "https://github.com/utsav89k/Covid19_vaccination_Analysis",
     live: "",
+    image: "https://images.unsplash.com/photo-1584483766114-2cea6facdf57?q=80&w=800&auto=format&fit=crop"
   },
   {
     title: "Retail Store Analysis Pipeline",
@@ -33,6 +37,7 @@ export const projects = [
     tech: ["AWS Glue", "AWS Lambda", "Power BI", "DAX", "ETL"],
     github: "https://github.com/utsav89k/Store-sales-analysis",
     live: "",
+    image: "/store-analysis.png"
   },
   {
     title: "Plant Disease Prediction (CNN)",
@@ -40,5 +45,6 @@ export const projects = [
     tech: ["Python", "TensorFlow", "Keras", "CNN", "Streamlit", "OpenCV", "NumPy"],
     github: "https://github.com/utsav89k/data_warehouse-project",
     live: "",
+    image: "/plant-disease.png"
   },
 ];
