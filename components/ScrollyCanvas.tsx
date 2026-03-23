@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useScroll, useMotionValueEvent } from "framer-motion";
-import Image from "next/image";
 
 const FRAME_COUNT = 120; // 0 to 119
 
@@ -106,22 +105,12 @@ export default function ScrollyCanvas() {
   });
 
   return (
-  return (
     <div ref={containerRef} className="relative h-[200vh] w-full bg-brand-bg">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Instant static fallback so there is ZERO delay for the first frame */}
-        <Image 
-          src="/sequence/frame_000_delay-0.066s.png"
-          alt="Hero Space Background"
-          fill
-          priority
-          className="object-cover object-center"
-        />
-        
-        {/* The interactive canvas that draws subsequent frames */}
+        {/* Fallback color/loader could go here before firstFrameLoaded becomes true */}
         <canvas
           ref={canvasRef}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${firstFrameLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`w-full h-full object-cover transition-opacity duration-1000 ${firstFrameLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
         
         {/* Dark gradient overlay at the bottom so it fades nicely into the next section */}
